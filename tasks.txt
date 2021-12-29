@@ -1,0 +1,27 @@
+ranges:
+    date:
+        days in month. months in year
+
+
+
+tasks:
+    report:
+        . every type of graph must be split into instances
+    Ui:
+        . slider for month range
+        . date selector
+    Tabs:
+        . Dashboard
+        . summary
+        . Reports
+        . Data Entry Officer
+        . Driver Supervisor
+        . Accountant
+        . 
+
+sme_name_list = []
+
+for sme_name in sme_main['sme_name'].unique():
+    sme_name_list.append(sme_name)
+
+sme_name_list.sort()
