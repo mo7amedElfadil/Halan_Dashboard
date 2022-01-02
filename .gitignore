@@ -8,6 +8,7 @@ __pycache__/
 
 # database & logs
 *.db
+site.db
 *.sqlite3
 *.log
 database.ini
