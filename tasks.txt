@@ -25,3 +25,155 @@ for sme_name in sme_main['sme_name'].unique():
     sme_name_list.append(sme_name)
 
 sme_name_list.sort()
+
+
+
+data:
+
+order Status count:
+    recieved
+        Daily
+            SME
+            Driver
+            Halan
+        Weekly
+            SME
+            Driver
+            Halan
+        Monthly
+            SME
+            Driver
+            Halan
+
+    delivered
+        Daily
+            SME
+            Driver
+            Halan
+        Weekly
+            SME
+            Driver
+            Halan
+        Monthly
+            SME
+            Driver
+            Halan
+    hold
+        Daily
+            SME
+            Driver
+            Halan
+        Weekly
+            SME
+            Driver
+            Halan
+        Monthly
+            SME
+            Driver
+            Halan
+    cancelled
+        Daily
+            SME
+            Driver
+            Halan
+        Weekly
+            SME
+            Driver
+            Halan
+        Monthly
+            SME
+            Driver
+            Halan
+
+
+order Status percentage:
+    delivered
+        Daily
+            SME
+            Driver
+            Halan
+        Weekly
+            SME
+            Driver
+            Halan
+        Monthly
+            SME
+            Driver
+            Halan
+    hold
+        Daily
+            SME
+            Driver
+            Halan
+        Weekly
+            SME
+            Driver
+            Halan
+        Monthly
+            SME
+            Driver
+            Halan
+    cancelled
+        Daily
+            SME
+            Driver
+            Halan
+        Weekly
+            SME
+            Driver
+            Halan
+        Monthly
+            SME
+            Driver
+            Halan
+
+
+Order Reason of failure:
+    Daily
+            SME
+            Driver
+            Halan
+        Weekly
+            SME
+            Driver
+            Halan
+        Monthly
+            SME
+            Driver
+            Halan
+
+GMV:
+    Halan (fee*.3)
+        Daily
+           
+        Weekly
+            
+        Monthly
+           
+    Driver (fee*.7)
+        Daily
+           
+        Weekly
+            
+        Monthly
+           
+        SME (Ordervalue-fee)
+        Daily
+            
+        Weekly
+           
+        Monthly
+    Total (orderValue)
+        Daily
+            
+        Weekly
+           
+        Monthly
+           
+
+
+
+Types of graphs:
+    .timeseries / scatter
+    .bar
+    .pie

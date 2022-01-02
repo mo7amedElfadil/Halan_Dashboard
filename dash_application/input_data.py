@@ -52,4 +52,3 @@ def input_data():
 
 
     return sme_main
-

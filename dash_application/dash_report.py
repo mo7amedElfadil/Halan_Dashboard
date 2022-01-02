@@ -496,6 +496,19 @@ html.Br(),
  ), 
 
 
+ #Graph 10 test graph  
+ html.Div([       
+           
+            html.Br(),
+             dcc.Graph(id='sme_status_comparison1'),
+
+ ],style=div_style1
+ ), 
+
+
+html.Hr(),
+html.Br(),
+
 
 
             ],style=div_style1

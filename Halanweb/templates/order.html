@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}   
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{url_for('static',filename='profile_pics/'+order.author.image_file)}}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="{{url_for('user_orders',username=order.author.username)}}">{{ order.author.username }}</a>
+            <small class="text-muted">{{ order.order_date }}</small>
+            {%if order.author == current_user%}
+              <div>
+                <a class ='btn btn-secondary btn-sm mt-1 mb-1' , href="{{url_for('update_order',order_id=order.order_id)}}">update</a>
+                <button type="button" class="btn btn-danger btn-sm m-1"data-toggle="modal" data-target="#deleteModal">Delete</button>
+              </div>
+            {%endif%}
+          </div>
+          <h2 class="article-title">{{ order.order_id}}</h2>
+          <p class="article-content">{{order.order_status }}</p>
+          <p class="article-content">{{order.driver_name }}</p>
+          <p class="article-content">{{order.order_value }}</p>
+        </div>
+      </article>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete order?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('delete_order', order_id=order.order_id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

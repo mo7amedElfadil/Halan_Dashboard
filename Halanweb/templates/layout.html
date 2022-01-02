@@ -27,16 +27,17 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-              <a class="nav-item nav-link" href="{{ url_for('render_dashboard') }}">Report</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
+              <a class="nav-item nav-link" href="{{ url_for('new_order') }}">New order</a>
+                <a class="nav-item nav-link" href="{{ url_for('render_dashboard') }}">Dashboard</a>
+                <a class="nav-item nav-link" href="{{ url_for('register')}}">Register</a>
                 <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
                 <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
               {% else %}
-                <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
-                <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+                <a class="nav-item nav-link" href="{{ url_for('login')}}">Login</a>
               {% endif %}
             </div>
           </div>
@@ -57,12 +58,13 @@
           {% endwith %}
           {% block content %}{% endblock %}
         </div>
+        {% if current_user.is_authenticated %}
         <div class="col-md-4">
           <div class="content-section">
             <h3>Our Sidebar</h3>
             <p class='text-muted'>You can put any information here you'd like.
               <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Latest Posts</li>
+                <li class="list-group-item list-group-item-light">Latest orders</li>
                 <li class="list-group-item list-group-item-light">Announcements</li>
                 <li class="list-group-item list-group-item-light">Calendars</li>
                 <li class="list-group-item list-group-item-light">etc</li>
@@ -70,6 +72,7 @@
             </p>
           </div>
         </div>
+        {%endif%}
       </div>
     </main>
 

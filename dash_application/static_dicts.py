@@ -1,16 +1,99 @@
+from dash_application.input_data import input_data
+sme_main = input_data()
+
+
+
+
+sme_name_list = []
+
+for sme_name in sme_main['sme_name'].unique():
+    if sme_name_list == []:
+        sme_name_list.append("")
+    sme_name_list.append(sme_name)
+
+sme_name_list.sort()
+sme_name_list
+
+
+Drivers_names_list = []
+
+for driver_name in sme_main['driver_name'].unique():
+    if Drivers_names_list == []:
+        Drivers_names_list.append("")
+    Drivers_names_list.append(driver_name)
+
+Drivers_names_list.sort()
+Drivers_names_list
+
+
+
+order_reason_of_failure_list = []
+
+for order_reason_of_failure in sme_main['order_reason_of_failure'].unique():
+    if Drivers_names_list == []:
+        order_reason_of_failure_list.append("")
+    order_reason_of_failure_list.append(order_reason_of_failure)
+
+#order_reason_of_failure_list.sort()
+
+
+
 
 features = {
-     'Daily orders recieved': 'Daily orders recieved',
-      'Weekly orders recieved' : 'Weekly orders recieved',
+     'Daily orders received': 'Daily orders received',
+      'Weekly orders received' : 'Weekly orders received',
+      'Monthly orders received' :'Monthly orders received',
       'Daily orders delivered':'Daily orders delivered',
       'Weekly orders delivered':'Weekly orders delivered',
+       'Monthly orders delivered':'Monthly orders delivered',
+      'Daily status comparison':'Daily status comparison',
+      'Weekly status comparison':'Weekly status comparison',
        'Monthly status comparison':'Monthly status comparison',
-      'SME status comparison' :'SME status comparison',
-     'SME status percentage comparison'    :'SME status percentage comparison',
+      'SME status comparison Daily' :'SME status comparison Daily',
+      'SME status comparison Weekly' :'SME status comparison Weekly',
+      'SME status comparison Monthly' :'SME status comparison Monthly',
+     'SME status percentage comparison Daily'    :'SME status percentage comparison Daily',
+     'SME status percentage comparison Weekly'    :'SME status percentage comparison Weekly',
+     'SME status percentage comparison Monthly'    :'SME status percentage comparison Monthly',
      'Daily status percentage comparison':'Daily status percentage comparison',
       'Daily status comparison':'Daily status comparison',
       'Order reason of failure':'Order reason of failure',
+      'Halan GMV':'Halan GMV',
 }
+
+features_graph_type = {
+    'order_status_count':'order_status_count',
+    "order_status_percentage":"order_status_percentage",
+    'order_reason_of_failure':'order_reason_of_failure', #pie
+     'GMV':'GMV',
+}
+
+features_order_status = {'Received':'Received',
+                         "Delivered":"Delivered",
+                         'Cancelled': 'Cancelled',
+                         'Hold':'Hold',
+                        }
+#   {'label':i, 'value': i } for i in sme_main.columns,
+features_order_period = {'Daily':'order_date', #ts
+                         'Weekly': 'week',      #bar
+                         'Monthly':'month_name',  #bar
+                        }
+features_stakeholder = {'Halan':'Halan',
+                        'SME':'sme_name',
+                        "Driver":"driver_name",
+                       }
+
+sme_columns = ['order_id', 'client_city', 'sme_name','order_value','order_date','driver_name','order_status','order_reason_of_failure','month_name','week','driver_fee',	'halan_return', 'sme_return']
+
+dates_list_of_dict = []
+
+for month in sme_main['month_name'].unique():
+    dates_list_of_dict.append({'label':str(month),'value': month})
+
+sme_status_options = []
+
+for status in sme_main['order_status'].unique():
+    sme_status_options.append({'label':str(status),'value': str(status)})
 
 css_styles =  {
     'background':'#111111',
@@ -42,7 +125,7 @@ css_styles =  {
   'dark': '#212529',
   'default': '#344675',
   'white': '#ffffff',
-  'neutral': '#ffffff',
+  
   'darker': 'black',
   'breakpoint-xs': 0,
   'breakpoint-sm': '576px',
@@ -60,8 +143,8 @@ c0 = { 'margin': '0',
   'line-height': '1.6',}
 
 
-card_style_1 = {'padding-bottom': '10px' , 
- 'background' : css_styles['neutral'] , 
+c2 = { 
+ 'background' : '#ffd73e33' , 
  'color':css_styles['dark'],
  ' box-shadow': '0px 1px 15px 1px rgba(69, 65, 78, 0.08)',
  'border-bottom': '7px solid',
@@ -69,10 +152,28 @@ card_style_1 = {'padding-bottom': '10px' ,
   'overflow': 'hidden',
   'position': 'relative',
   'border-radius': '5px',
-  'padding':10,
+  
+   'min-height': '3em',
+  'resize': 'both',
+  'display': 'flex',
+ 
 }
-
-c2 =  {
+art_style ={
+     "position": "inherit",
+     'margin': '1rem',
+     'margin-left': '1rem',
+     'margin-right': '1rem',
+     'padding-top':'1rem',
+     'padding-bottom':'1rem',
+     'padding-right': '1rem',
+     'border-radius': '60px',
+    'background-color': '#e9ecef',
+     'box-shadow': '2px 6px 15px 0 rgba(69,65,78,.1)',
+    
+     'border': '2px dotted #212529',
+   
+     }
+card_style_1 =  {
  'border-radius': '5px',
   'background-color': '#212529',
   'color': '#7d7b7b',
@@ -86,10 +187,39 @@ c2 =  {
   'padding': '15px 25px !important',
   }
 
+card_style_2 = {
+    'border-radius': '5px',
+    'background-color': '#fff',
+    'margin-bottom': '30px',
+    'box-shadow': '2px 6px 15px 0 rgba(69,65,78,.1)',
+    'border': '0',
+    'border-top-color': 'currentcolor',
+    'border-top-style': 'none',
+    'border-top-width': '0px',
+    'border-right-color': 'currentcolor',
+    'border-right-style': 'none',
+    'border-right-width': '0px',
+    'border-bottom-color': 'currentcolor',
+    'border-bottom-style': 'none',
+    'border-bottom-width': '0px',
+    'border-left-color': 'currentcolor',
+    'border-left-style': 'none',
+    'border-left-width': '0px',
+    'border-image-outset': '0',
+    'border-image-repeat': 'stretch',
+    'border-image-slice': '100%',
+    'border-image-source': 'none',
+    'border-image-width': '1',
+}
+
+  
+
+style_1 = {'display': 'block', 'margin-left': 'calc(50% - 110px)'}
+div_style1 = {'backgroundColor':css_styles['light'], 'color':css_styles['dark'], 'border':'3px indigo solid', 'padding':10}
 
 font1 ={'color': css_styles['text'],                
                 'family' : css_styles['font-family-monospace'],
-                'size' : 16,
+                
                 'color': css_styles['white'],
                 }
 
@@ -116,4 +246,48 @@ tab_selected_style = {
     'color': 'white',
     'padding': '6px',
     'border-radius': '15px',
+}
+
+
+NAVBAR_STYLE = {
+    "position": "absolute",
+    "top": 0,
+    "left": 0,
+    "right": 0,
+   
+    'height': '12rem',
+    "padding": "2rem ",
+    "background-color": "#f8f9fa",
+    'box-shadow': '4px 4px 4px 4px lightgrey',
+      'fontWeight': 'bold',
+    'border-radius': '15px',
+    'margin' : '1rem',
+}
+
+CONTENT_STYLE = {
+    "top":0,
+    "margin-top":'15rem',
+    "margin-left": "2rem",
+    "margin-right": "2rem",
+    "position": "relative",
+   
+}
+
+
+theme = {
+    
+'dark': False,
+'detail': '#007439',
+'primary': '#00EA64',
+'secondary': '#6E6E6E',
+ "top":0,
+    "margin-top":'2rem',
+    "margin-left": "2rem",
+    "margin-right": "2rem",
+    "background-color":'f4f5f7',
+    'color': 'black',
+     "position": "relative",
+      'box-shadow': '4px 4px 4px 4px lightgrey',
+      'border-radius': '15px',
+      
 }
