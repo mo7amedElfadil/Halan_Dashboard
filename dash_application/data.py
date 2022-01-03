@@ -47,7 +47,6 @@ class report_data:
 
     sme_bus_grp = sme_main.groupby(["sme_name"])
     stores_dict = {}
-
     for x in sme_bus_grp:
         stores_dict[x[0]] = sme_bus_grp.get_group(x[0])['order_id'].count()
 
