@@ -40,9 +40,9 @@ class report_data:
     #orders_status_monthly = orders_status_monthly[orders_status_monthly['month_name']==month]
 
     #Grpah 6 Data
-    sme_status =sme_main[['sme_name','order_status','order_value','order_date']]
+    #sme_status =sme_main[['sme_name','order_status','order_value','order_date']]
     #sme_status =  pd.DataFrame(sme_main.groupby('sme_name')['order_status'].value_counts()).rename(columns={'order_status': 'order_count'}).reset_index()
-
+    sme_status = pd.DataFrame(sme_main.groupby(['order_date','sme_name','order_status'])['sme_name'].value_counts()).reset_index(level=1, drop=True).rename(columns={'sme_name': 'order_count'}).reset_index()
     #Graph 7 Data
 
     sme_bus_grp = sme_main.groupby(["sme_name"])

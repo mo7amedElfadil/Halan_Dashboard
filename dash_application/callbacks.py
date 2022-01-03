@@ -65,8 +65,8 @@ def update_figure_6(selected_status):
        
        
         traces.append(go.Scatter(
-            x=sme_graph_df['order_value'],
-            y=sme_graph_df['sme_name'],
+            x=sme_graph_df['order_date'],
+            y=sme_graph_df['order_count'],
             mode = 'markers',
             opacity =  0.7,
             marker = {'size':15},
@@ -76,7 +76,7 @@ def update_figure_6(selected_status):
     return {'data': traces,
             'layout':go.Layout(
                 title =  'SME status comparison',
-                xaxis = dict(title = 'Order Value'),
+                xaxis = dict(title = 'Order Dates'),
                hovermode= 'closest',
              plot_bgcolor = css_styles['gray1']  ,
                 paper_bgcolor =css_styles['gray2'],
