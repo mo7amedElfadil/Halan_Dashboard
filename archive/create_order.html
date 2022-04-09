@@ -1,0 +1,214 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  {% for category, message in messages %}
+  <span>
+    <div class="alert alert-{{ category }}">
+      {{ message }}
+    </div>
+</span>
+  {% endfor %}
+{% endif %}
+{% endwith %}
+    </div>
+
+    <div class="content-section">
+      <div class="row">
+        <div class="col-6">
+       
+            <form method="POST" action="#">
+                {{ form.csrf_token }}
+                {{ form.name }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">{{legend}}</legend>
+                    
+                    
+
+                    
+                    <div class="form-group">
+                        {{ form.order_id.label(class="form-control-label") }}
+                        {% if form.order_id.errors %}
+                            {{ form.order_id(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.order_id.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.order_id(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.client_contact_no.label(class="form-control-label") }}
+
+                        {% if form.client_contact_no.errors %}
+                            {{ form.client_contact_no(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.client_contact_no.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.client_contact_no(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                    {{ form.client_city.label(class="form-control-label") }}
+                        {% if form.client_city.errors %}
+                            {{ form.client_city(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.client_city.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.client_city(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.client_address.label(class="form-control-label") }}
+                        {% if form.client_address.errors %}
+                            {{ form.client_address(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.client_address.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.client_address(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.sme_name.label(class="form-control-label") }}
+                        {% if form.sme_name.errors %}
+                            {{ form.sme_name(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.sme_name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.sme_name(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.order_status.label(class="form-control-label") }}
+                        {% if form.order_status.errors %}
+                            {{ form.order_status(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.order_status.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.order_status(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.driver_name.label(class="form-label") }}
+                        {% if form.driver_name.errors %}
+                            {{ form.driver_name(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.driver_name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.driver_name(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    
+                    <div class="form-group">
+                        {{ form.order_delivery_fees.label(class="form-control-label") }}
+                        {% if form.order_delivery_fees.errors %}
+                            {{ form.order_delivery_fees(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.order_delivery_fees.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.order_delivery_fees(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.order_value.label(class="form-control-label") }}
+                        {% if form.order_value.errors %}
+                            {{ form.order_value(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.order_value.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.order_value(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.order_reason_of_failure.label(class="form-control-label") }}
+                        {% if form.order_reason_of_failure.errors %}
+                            {{ form.order_reason_of_failure(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.order_reason_of_failure.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.order_reason_of_failure(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.order_date.label(class="form-control-label") }}
+                        {% if form.order_date.errors %}
+                            {{ form.order_date(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.order_date.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.order_date(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+            </form>
+    </div>
+
+    <div class="col-4 " style="margin:auto ">
+        <div class="row justify-content-md-center">
+            <body class="center_content">
+                
+                <span id="csv_feedback"></span>
+
+                <h1>Upload your CSV file</h1>
+                <form method="POST" action="csv" enctype="multipart/form-data">
+                <p><input type="file" name="file"></p>
+                <p><input type="submit" value="Submit"></p>
+                </form>
+
+                
+            </body>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+
+    
+{% endblock content %}

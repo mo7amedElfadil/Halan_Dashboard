@@ -1,0 +1,2 @@
+client_contact_no,order_id,client_city,client_address,Client Zone,sme_name,order_status,order_reason_of_failure,driver_name,order_delivery_fees,order_value,order_date
+999999999,999999,khartoum,altaef,kh_alryad,kle store,Delivered,,mostafa banga,400,1100,2021-06-01

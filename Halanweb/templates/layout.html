@@ -1,86 +1,648 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=2">
+    <!----======== MAIN CSS ======== -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='spinner_styling.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='boxicons.min.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    
+    
+     <!----===== Bootstrap CSS ===== -->
+     
 
-    {% if title %}
-        <title>Halan Web App - {{ title }}</title>
-    {% else %}
-        <title>Halan Web App</title>
-    {% endif %}
+   
 </head>
-<body>
-    <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-          <a class="navbar-brand mr-4" href="/">Halan Web App</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-            </div>
-            <!-- Navbar Right Side -->
-            <div class="navbar-nav">
-              {% if current_user.is_authenticated %}
-              <a class="nav-item nav-link" href="{{ url_for('new_order') }}">New order</a>
-                <a class="nav-item nav-link" href="{{ url_for('render_dashboard') }}">Dashboard</a>
-                <a class="nav-item nav-link" href="{{ url_for('register')}}">Register</a>
-                <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
-                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
-              {% else %}
-                <a class="nav-item nav-link" href="{{ url_for('login')}}">Login</a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
-    <main role="main" class="container">
-      <div class="row">
-        <div class="col-md-8">
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                  {{ message }}
+
+    <title>Halan Web App</title>
+
+</head>
+
+ {% if current_user.is_authenticated %}
+
+ {%if current_user.role == "admin"%}
+ <body>
+   
+     <div class="row">
+
+    
+     <nav class="sidebar close" >
+            <header>
+                <div class="image-text">
+                    <span class="image">
+                        <img src="{{url_for('static', filename='favicon.ico')}}" alt="">
+                    </span>
+
+                    <div class="text logo-text">
+                        <span class="name">Halan Web App</span>
+                        </div>
                 </div>
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
-          {% block content %}{% endblock %}
-        </div>
-        {% if current_user.is_authenticated %}
-        <div class="col-md-4">
-          <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Latest orders</li>
-                <li class="list-group-item list-group-item-light">Announcements</li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
-              </ul>
-            </p>
-          </div>
-        </div>
-        {%endif%}
-      </div>
-    </main>
+
+                <i class='bx bx-chevron-right toggle'></i>
+                
+            </header>
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            <div class="menu-bar" style="scrollbar-width: none">
+
+
+                <div class="menu-links">
+                    <i> <img class="rounded-circle" width=60px src="{{url_for('static',filename='profile_pics/'+current_user.image_file)}}"}}" style="margin-top:2rem "></i>
+            
+                <span class="text nav-text"> {{current_user.email}}</span>
+                </ul>
+            
+                    <ul class="menu-links">
+                        <li class="">
+                            <a href="{{ url_for('home') }}">
+                                <i class='bx bx-home-alt icon' ></i>
+                                <span class="text nav-text">Home</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{ url_for('mini_dashboard') }}">
+                                <i class='bx bx-bar-chart-alt-2 icon' ></i>
+                                <span class="text nav-text">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{ url_for('new_order')}}">
+                                <i class='bx bx-add-to-queue icon'></i>
+                                <span class="text nav-text">New Order</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{url_for('drivers')}}">
+                                <i class='bx bx-trip icon' ></i>
+                                <span class="text nav-text">Drivers</span>
+                            </a>
+                        </li>
+                        
+                        <li class="">
+                            <a href="{{ url_for('stores')}}">
+                                <i class='bx bx-store-alt icon' ></i>
+                                <span class="text nav-text">Stores</span>
+                            </a>
+                        </li>
+                        
+                        <li class="">
+                            <a href="{{ url_for('register')}}">
+                                <i class='bx bx-user-plus icon' ></i>
+                                <span class="text nav-text">Register</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{ url_for('account') }}">
+                                <i class='bx bx-user icon' ></i>
+                                <span class="text nav-text">Account</span>
+                            </a>
+                        </li>
+
+                        <li class="search-box">
+                    
+                    
+                        </li>
+
+                <div class="bottom-content">
+                    <li class=" ">
+                        <a href="{{ url_for('logout') }}">
+                            <i class='bx bx-log-out icon' ></i>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
+
+                    <li class="mode">
+                        <div class="sun-moon">
+                            <i class='bx bx-moon icon moon'></i>
+                            <i class='bx bx-sun icon sun'></i>
+                        </div>
+                        <span class="mode-text text">Dark mode</span>
+
+                        <div class="toggle-switch">
+                            <span class="switch"></span>
+                        </div>
+                    </li>
+                    
+                </div>
+            </div>
+
+        </nav>
+        {% endif%}
+        
+        
+ {%if current_user.role == "Upper Management"%}
+ <body>
+     
+     <div class="row">
+         
+     <nav class="sidebar close" >
+         
+            <header>
+                <div class="image-text">
+                    <span class="image">
+                        <img src="{{url_for('static', filename='favicon.ico')}}" alt="">
+                    </span>
+
+                    <div class="text logo-text">
+                        <span class="name">Halan Web App</span>
+                        </div>
+                </div>
+
+                <i class='bx bx-chevron-right toggle'></i>
+            </header>
+            
+            <div class="menu-bar" style="scrollbar-width: none">
+            
+            
+                <div class="menu-links">
+                    <i> <img class="rounded-circle" width=60px src="{{url_for('static',filename='profile_pics/'+current_user.image_file)}}"}}" style="margin-top:2rem "></i>
+            
+                <span class="text nav-text"> {{current_user.email}}</span>
+                </ul>
+            
+                <div class="menu">
+
+
+                    <ul class="menu-links">
+                        <li class="">
+                            <a href="{{ url_for('home') }}">
+                                <i class='bx bx-home-alt icon' ></i>
+                                <span class="text nav-text">Home</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{ url_for('mini_dashboard') }}">
+                                <i class='bx bx-bar-chart-alt-2 icon' ></i>
+                                <span class="text nav-text">Dashboard</span>
+                            </a>
+                        </li>
+
+                        
+
+                        <li class="">
+                            <a href="{{url_for('drivers')}}">
+                                <i class='bx bx-trip icon' ></i>
+                                <span class="text nav-text">Drivers</span>
+                            </a>
+                        </li>
+                        
+                        <li class="">
+                            <a href="{{ url_for('stores')}}">
+                                <i class='bx bx-store-alt icon' ></i>
+                                <span class="text nav-text">Stores</span>
+                            </a>
+                        </li>
+                        
+
+                        <li class="">
+                            <a href="{{ url_for('account') }}">
+                                <i class='bx bx-user icon' ></i>
+                                <span class="text nav-text">Account</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                
+                    <li class="search-box">
+                        
+                        
+                    </li>
+                <div class="bottom-content">
+                    <li class=" ">
+                        <a href="{{ url_for('logout') }}">
+                            <i class='bx bx-log-out icon' ></i>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
+
+                    <li class="mode">
+                        <div class="sun-moon">
+                            <i class='bx bx-moon icon moon'></i>
+                            <i class='bx bx-sun icon sun'></i>
+                        </div>
+                        <span class="mode-text text">Dark mode</span>
+
+                        <div class="toggle-switch">
+                            <span class="switch"></span>
+                        </div>
+                    </li>
+                    
+                </div>
+            </div>
+
+        </nav>
+        {% endif%}
+
+       
+ {%if current_user.role == "Operations Manager"%}
+ <body>
+     <div class="row">
+     <nav class="sidebar close" >
+            <header>
+                <div class="image-text">
+                    <span class="image">
+                        <img src="{{url_for('static', filename='favicon.ico')}}" alt="">
+                    </span>
+
+                    <div class="text logo-text">
+                        <span class="name">Halan Web App</span>
+                        </div>
+                </div>
+
+                <i class='bx bx-chevron-right toggle'></i>
+            </header>
+
+            <div class="menu-bar" style="scrollbar-width: none">
+
+
+
+                <div class="menu-links">
+                    <i> <img class="rounded-circle" width=60px src="{{url_for('static',filename='profile_pics/'+current_user.image_file)}}"}}" style="margin-top:2rem "></i>
+            
+                <span class="text nav-text"> {{current_user.email}}</span>
+                </ul>
+
+                <div class="menu">
+
+
+                    <ul class="menu-links">
+                        <li class="">
+                            <a href="{{ url_for('home') }}">
+                                <i class='bx bx-home-alt icon' ></i>
+                                <span class="text nav-text">Home</span>
+                            </a>
+                        </li>
+
+                        
+                        <li class="">
+                            <a href="{{ url_for('stores')}}">
+                                <i class='bx bx-store-alt icon' ></i>
+                                <span class="text nav-text">Stores</span>
+                            </a>
+                        </li>
+                        
+
+                        <li class="">
+                            <a href="{{ url_for('account') }}">
+                                <i class='bx bx-user icon' ></i>
+                                <span class="text nav-text">Account</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                
+                    <li class="search-box">
+                        
+                        
+                    </li>
+                <div class="bottom-content">
+                    <li class=" ">
+                        <a href="{{ url_for('logout') }}">
+                            <i class='bx bx-log-out icon' ></i>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
+
+                    <li class="mode">
+                        <div class="sun-moon">
+                            <i class='bx bx-moon icon moon'></i>
+                            <i class='bx bx-sun icon sun'></i>
+                        </div>
+                        <span class="mode-text text">Dark mode</span>
+
+                        <div class="toggle-switch">
+                            <span class="switch"></span>
+                        </div>
+                    </li>
+                    
+                </div>
+            </div>
+
+        </nav>
+        {% endif%}
+
+
+        {%if current_user.role == "Drivers Supervisor"%}
+        <body>
+            <div class="row">
+                
+            <nav class="sidebar close" >
+                   <header>
+                       <div class="image-text">
+                           <span class="image">
+                               <img src="{{url_for('static', filename='favicon.ico')}}" alt="">
+                           </span>
+       
+                           <div class="text logo-text">
+                               <span class="name">Halan Web App</span>
+                               </div>
+                       </div>
+       
+                       <i class='bx bx-chevron-right toggle'></i>
+                   </header>
+       
+                   <div class="menu-bar" style="scrollbar-width: none">
+
+
+                    <div class="menu-links">
+                        <i> <img class="rounded-circle" width=60px src="{{url_for('static',filename='profile_pics/'+current_user.image_file)}}"}}" style="margin-top:2rem "></i>
+                
+                    <span class="text nav-text"> {{current_user.email}}</span>
+                    </ul>
+
+                       <div class="menu">
+       
+       
+                           <ul class="menu-links">
+                               <li class="">
+                                   <a href="{{ url_for('home') }}">
+                                       <i class='bx bx-home-alt icon' ></i>
+                                       <span class="text nav-text">Home</span>
+                                   </a>
+                               </li>
+       
+                               
+       
+                               <li class="">
+                                   <a href="{{url_for('drivers')}}">
+                                       <i class='bx bx-trip icon' ></i>
+                                       <span class="text nav-text">Drivers</span>
+                                   </a>
+                               </li>
+                               
+                               <li class="">
+                                   <a href="{{ url_for('account') }}">
+                                       <i class='bx bx-user icon' ></i>
+                                       <span class="text nav-text">Account</span>
+                                   </a>
+                               </li>
+       
+                           </ul>
+                       </div>
+                       
+                           <li class="search-box">
+                               
+                               
+                           </li>
+                       <div class="bottom-content">
+                           <li class=" ">
+                               <a href="{{ url_for('logout') }}">
+                                   <i class='bx bx-log-out icon' ></i>
+                                   <span class="text nav-text">Logout</span>
+                               </a>
+                           </li>
+       
+                           <li class="mode">
+                               <div class="sun-moon">
+                                   <i class='bx bx-moon icon moon'></i>
+                                   <i class='bx bx-sun icon sun'></i>
+                               </div>
+                               <span class="mode-text text">Dark mode</span>
+       
+                               <div class="toggle-switch">
+                                   <span class="switch"></span>
+                               </div>
+                           </li>
+                           
+                       </div>
+                   </div>
+       
+               </nav>
+               {% endif%}
+
+
+
+               {%if current_user.role == "Accountant"%}
+               <body>
+                   <div class="row">
+                   <nav class="sidebar close" >
+                          <header>
+                              <div class="image-text">
+                                  <span class="image">
+                                      <img src="{{url_for('static', filename='favicon.ico')}}" alt="">
+                                  </span>
+              
+                                  <div class="text logo-text">
+                                      <span class="name">Halan Web App</span>
+                                      </div>
+                              </div>
+              
+                              <i class='bx bx-chevron-right toggle'></i>
+                          </header>
+
+                         
+                                
+                <div class="menu-links">
+                    <i> <img class="rounded-circle" width=60px src="{{url_for('static',filename='profile_pics/'+current_user.image_file)}}"}}" style="margin-top:2rem "></i>
+            
+                <span class="text nav-text"> {{current_user.email}}</span>
+                </ul>
+                          <div class="menu-bar " style="scrollbar-width: none">
+                    
+                              <div class="menu">
+              
+              
+                                  <ul class="menu-links">
+                                      <li class="">
+                                          <a href="{{ url_for('home') }}">
+                                              <i class='bx bx-home-alt icon' ></i>
+                                              <span class="text nav-text">Home</span>
+                                          </a>
+                                      </li>
+                                   
+                                      <li class="">
+                                          <a href="{{url_for('drivers')}}">
+                                              <i class='bx bx-trip icon' ></i>
+                                              <span class="text nav-text">Drivers</span>
+                                          </a>
+                                      </li>
+                                      
+                                      <li class="">
+                                          <a href="{{ url_for('account') }}">
+                                              <i class='bx bx-user icon' ></i>
+                                              <span class="text nav-text">Account</span>
+                                          </a>
+                                      </li>
+              
+                                  </ul>
+                              </div>
+                              
+                                  <li class="search-box">
+                                      
+                                      
+                                  </li>
+                              <div class="bottom-content">
+                                  <li class=" ">
+                                      <a href="{{ url_for('logout') }}">
+                                          <i class='bx bx-log-out icon' ></i>
+                                          <span class="text nav-text">Logout</span>
+                                      </a>
+                                  </li>
+              
+                                  <li class="mode">
+                                      <div class="sun-moon">
+                                          <i class='bx bx-moon icon moon'></i>
+                                          <i class='bx bx-sun icon sun'></i>
+                                      </div>
+                                      <span class="mode-text text">Dark mode</span>
+              
+                                      <div class="toggle-switch">
+                                          <span class="switch"></span>
+                                      </div>
+                                  </li>
+                                  
+                              </div>
+                          </div>
+              
+                      </nav>
+                      {% endif%}
+       
+               {%if current_user.role == "Data Entry Officer"%}
+               <body>
+                   <div class="row">
+                   <nav class="sidebar close" >
+                          <header>
+                              <div class="image-text">
+                                  <span class="image">
+                                      <img src="{{url_for('static', filename='favicon.ico')}}" alt="">
+                                  </span>
+              
+                                  <div class="text logo-text">
+                                      <span class="name">Halan Web App</span>
+                                      </div>
+                              </div>
+              
+                              <i class='bx bx-chevron-right toggle'></i>
+                          </header>
+                          
+         
+
+                          <div class="menu-bar" style="scrollbar-width: none">
+                              <div class="menu">
+              
+              
+                                  <ul class="menu-links">
+                                      <li class="">
+                                          <a href="{{ url_for('home') }}">
+                                              <i class='bx bx-home-alt icon' ></i>
+                                              <span class="text nav-text">Home</span>
+                                          </a>
+                                      </li>
+              
+                                      <li class="">
+                                        <a href="{{ url_for('new_order')}}">
+                                            <i class='bx bx-add-to-queue icon'></i>
+                                            <span class="text nav-text">New Order</span>
+                                        </a>
+                                    </li>
+
+                                      <li class="">
+                                          <a href="{{ url_for('account') }}">
+                                              <i class='bx bx-user icon' ></i>
+                                              <span class="text nav-text">Account</span>
+                                          </a>
+                                      </li>
+              
+                                  </ul>
+                              </div>
+                              
+                                  <li class="search-box">
+                                      
+                                      
+                                  </li>
+                              <div class="bottom-content">
+                                  <li class=" ">
+                                      <a href="{{ url_for('logout') }}">
+                                          <i class='bx bx-log-out icon' ></i>
+                                          <span class="text nav-text">Logout</span>
+                                      </a>
+                                  </li>
+              
+                                  <li class="mode">
+                                      <div class="sun-moon">
+                                          <i class='bx bx-moon icon moon'></i>
+                                          <i class='bx bx-sun icon sun'></i>
+                                      </div>
+                                      <span class="mode-text text">Dark mode</span>
+              
+                                      <div class="toggle-switch">
+                                          <span class="switch"></span>
+                                      </div>
+                                  </li>
+                                  
+                              </div>
+                          </div>
+              
+                      </nav>
+                      {% endif%}
+
+
+       <section class="home">  
+  
+      <main role="main" class='content_container'>
+        
+            <div class=" mt--5">
+                
+             {% block content %}{% endblock %}  
+            </div>
+      </main>
+  
+</section>
+</div>
+{% endif%}
+
+
+
+    <script>
+        const body = document.querySelector('body'),
+      sidebar = body.querySelector('nav'),
+      toggle = body.querySelector(".toggle"),
+      searchBtn = body.querySelector(".search-box"),
+      modeSwitch = body.querySelector(".toggle-switch"),
+      modeText = body.querySelector(".mode-text");
+
+
+toggle.addEventListener("click" , () =>{
+    sidebar.classList.toggle("close");
+})
+
+searchBtn.addEventListener("click" , () =>{
+    sidebar.classList.remove("close");
+})
+
+modeSwitch.addEventListener("click" , () =>{
+    body.classList.toggle("dark");
+    
+    if(body.classList.contains("dark")){
+        modeText.innerText = "Light mode";
+    }else{
+        modeText.innerText = "Dark mode";
+        
+    }
+});
+    </script>
+   
+   <!----===== Bootstrap CSS ===== -->
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   <script  src="static/js/bootstrap.js"></script>
+   
 </body>
 </html>

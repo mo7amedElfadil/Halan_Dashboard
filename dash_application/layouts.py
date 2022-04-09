@@ -3,207 +3,100 @@ import dash_bootstrap_components as dbc
 from dash import dash_table
 from datetime import datetime
 import plotly.graph_objs as go
-import pandas as pd
-from dash_application.static_dicts import tab_selected_style, card_style_2, dates_list_of_dict,NAVBAR_STYLE, CONTENT_STYLE, css_styles, font1, div_style1,sme_status_options,c0,c2,features_graph_type,features_order_period,features_order_status,features_stakeholder
-from dash_application.data import report_data
+from dash_application.static_dicts import CONTENT_STYLE, tab_style,  h1_style,card_style_1,graph_style, dates_list_of_dict
+from dash_application.data import data, report_data
+from dash_application.dash_components import spinner_component,drop_down_dashboard_dynamic, drop_down_dashboard
+from dash_application.plots import report_plots
 
 month = str(datetime.now().strftime('%B'))
-### Layout 1
-layout1 = html.Div([
-    html.H2("Page 1"),
-    html.Hr(),
-    # create bootstrap grid 1Row x 2 cols
-    dbc.Container([
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.Div(
-                            [
-                            html.H4('Example Graph Page'),
-                            #create tabs
-                            dbc.Tabs(
-                                [
-                                    #graphs will go here eventually using callbacks
-                                    dbc.Tab(label='graph1',tab_id='graph1'),
-                                    dbc.Tab(label='graph2',tab_id='graph2')
-                                ],
-                                id="tabs",
-                                active_tab='graph1',
-                                ),
-                            html.Div(id="tab-content",className="p-4")
-                            ]
-                        ),
-                    ],
-                    width=6 #half page
-                ),
-                
-                dbc.Col(
-                    [
-                        html.H4('Additional Components here'),
-                        html.P('Click on graph to display text', id='graph-text')
-                    ],
-                    width=6 #half page
-                )
-                
-            ],
-        ), 
-    ]),
-])
 
 
-### Layout 2
-layout2 = html.Div(
-    [
-        html.H2('Page 2'),
-        html.Hr(),
-        dbc.Container(
-            [
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            [
-                                html.H4('Country'),
-                                html.Hr(),
-                                dcc.Dropdown(
-                                    id='page2-dropdown',
-                                    options=[
-                                        {'label': '{}'.format(i), 'value': i} for i in [
-                                        'United States', 'Canada', 'Mexico'
-                                        ]
-        ]
-                                ),
-                                html.Div(id='selected-dropdown')
-                            ],
-                            width=6
-                        ),
-                        dbc.Col(
-                            [
-                                html.H4('Fruit'),
-                                html.Hr(),
-                                dcc.RadioItems(
-                                    id='page2-buttons',
-                                    options = [
-                                        {'label':'{}'.format(i), 'value': i} for i in [
-                                        'Yes ', 'No ', 'Maybe '
-                                        ]
-                                    ]
-                                ),
-                                html.Div(id='selected-button')
-                            ],
-                        )
-                    ]
-                ),
-            ]
-        )
-    ])
-
-
-def create_data_table_layout(df):
-    data_table_layout = html.Div(
+def create_data_table_layout():
+    return html.Div(
       children=  [
-            dash_table.DataTable(id='data_table',
+          drop_down_dashboard(),
+          html.Div(id ='table_container',children=[ ])
+        ]
+    )
+
+def create_data_table(df):
+    
+    return dash_table.DataTable(id='data_table',
             columns = [{'names':i,'id':i} for i in df.columns],
-            data = df.to_dict('rows'),
-            style_header={'backgroundColor': "#5e72e4",
-                              'fontWeight': 'bolds',
-                              'textAlign': 'center',},
+            data = df.to_dict('records'),
+            style_header=h1_style,
                 style_table={'overflowX': 'scroll'},  
                 style_cell={'minWidth': '80px', 'width': '180px',
-                        'whiteSpace': 'normal'},                        
+                        'whiteSpace': 'normal','textAlign': 'left','padding': '5px'},                        
                          filter_action="native",
         sort_action="native",
         sort_mode="multi",
-                # row_selectable="multi",
-                  selected_columns=[],
+        selected_columns=[],
         selected_rows=[],
          page_action="native",
         page_current= 0,
         page_size= 20,
 
-            ),
-        ],style =CONTENT_STYLE
-    )
-
-    return data_table_layout
+            )  
 
 
-report_layout = html.Div(
-children=[ 
-            
-            html.H1('Halan SME Report', style={'textAlign':'center',
-                                        'color':css_styles['darker'] ,
-                                         'margin-bottom': '0.5rem',
-                                        'font-family': css_styles['font-family-monospace'],
-                                        'font-weight': '400',
-                                        'line-height': '1.2',
-                                        'border': '3px black solid',
-                                        }),
+def create_report_layout_dynamic(sme_main):
+    
+    month='June'
+    sme_main=sme_main[sme_main['month_name']==month]
+    return html.Div(
+        children=[ 
+
+        
+            html.H1('Halan SME Report for {}'.format(month), style=h1_style),
+             
+             dbc.Row([
+
+
+                  dbc.Col([
+                            html.H4('Select a month to generate the report for: '),
+                        
+                        ], width={'size':3,'offset':1},),
+
+                 dbc.Col([
+         
+                        dcc.Dropdown(
+                            id='g5-dropdown',
+                            options = dates_list_of_dict,
+                            value=month,
+                            placeholder="Select a month",
+                        
+                            ),
+                        
+                        ], width={'size':3,},)
+
+
+              ]),
+
+          
+        
+          
            
 
 
  #Graph 1   
  html.Div([       
-            dcc.Graph(id='orders_recieved_daily',
-            figure={'data':[
-                
-                go.Scatter( x=report_data.orders_recieved_daily['order_date'],
-                    y=report_data.orders_recieved_daily['order_count'],
-                    dx=5,
-                    dy=1,
-                     text=report_data.orders_recieved_daily['order_count'],
-                     textfont_size=14,
-                textposition='top right',
-                     mode='lines+markers+text',
-                     marker = dict(
-                         size = 12,
-                        color= css_styles['cyan'],
-                        symbol = 'circle',
-                        
-                       line = {'width': 2}
-                     )
-                     ,
-                  )],
+           spinner_component(    dcc.Graph(id='orders_Received_daily',style=card_style_1,
+            figure=report_plots.plots(data.halan_dataframes(sme_main,'order_status_count','Received','Daily','Halan'),'Daily','Received')      
+            ),)
 
-            'layout':go.Layout(
-                title =  'Daily orders received',
-                xaxis = dict(title = 'Order Date'),
-                yaxis = dict(title = 'Order Count'),
-                autosize = True,
-                
-                 
-               plot_bgcolor = css_styles['gray1']  ,
-                paper_bgcolor =css_styles['gray2'],
-                
-                font= font1,
-           ) }),
-
- ],style=card_style_2
+ ],style=graph_style
  ), 
 
 html.Hr(),
 html.Br(),
  #Graph 2
  html.Div([
-            dcc.Graph(id='orders_recieved_weekly',
-            figure={'data':[
-                
-                go.Bar( x=report_data.orders_recieved_weekly['week'],
-                    y=report_data.orders_recieved_weekly['order_count'],
-                     text=report_data.orders_recieved_weekly['order_count'],
-                   
-                  )],
-
-            'layout':go.Layout(
-                title =  'Daily orders received',
-                xaxis = dict(title = 'Order Week'),
-                yaxis = dict(title = 'Order Count'),
-                plot_bgcolor = css_styles['gray1']  ,
-                paper_bgcolor =css_styles['gray2'],
-                autosize = True,
-                font= font1,
-           ) }),
- ],style=card_style_2
+            spinner_component(   dcc.Graph(id='orders_Received_weekly',style=card_style_1,
+            figure=report_plots.plots(data.halan_dataframes(sme_main,'order_status_count','Received','Weekly','Halan'),'Weekly','Received')      
+           
+           ),)
+ ],style=graph_style
  ), 
 
 
@@ -212,35 +105,10 @@ html.Br(),
 
  #Graph 3
 html.Div([
-            dcc.Graph(id='orders_delivered_daily',
-            figure={'data':[
-                
-                go.Scatter( x=report_data.orders_delivered_daily['order_date'],
-                    y=report_data.orders_delivered_daily['order_count'],
-                     text=report_data.orders_delivered_daily['order_count'],
-                      textfont_size=14,
-                textposition='top right',
-                   mode='lines+markers+text',
-                     marker = dict(
-                         size = 12,
-                        color= css_styles['cyan'],
-                        symbol = 'circle',
-                        
-                       line = {'width': 2}
-                     )
-                     ,
-                  )],
-            'layout':go.Layout(
-                title =  'Daily orders delivered',
-             autosize = True,
-                xaxis = dict(title = 'Order Date'),
-                yaxis = dict(title = 'Order Count'),
-               plot_bgcolor = css_styles['gray1']  ,
-                paper_bgcolor =css_styles['gray2'],
-                
-               font= font1,
-           ) }),
- ],style=card_style_2
+            spinner_component(  dcc.Graph(id='orders_delivered_daily',style=card_style_1,
+            figure=report_plots.plots(data.halan_dataframes(sme_main,'order_status_count','Delivered','Daily','Halan'),'Daily','Delivered')      
+            ),)
+ ],style=graph_style
  ), 
 
 
@@ -248,28 +116,11 @@ html.Hr(),
 html.Br(),
  #Graph 4
  html.Div([
-            dcc.Graph(id='orders_delivered_weekly',
-            figure={'data':[
-                
-                go.Bar( x=report_data.orders_delivered_weekly['halan_week'],
-                    y=report_data.orders_delivered_weekly['order_count'],
-                    #color=orders_delivered_weekly["month_name"],
-                    # barmode="group",
-                     text=report_data.orders_delivered_weekly['order_count'],
-                   
-                  )],
+            spinner_component(   dcc.Graph(id='orders_delivered_weekly',style=card_style_1,
+            figure=report_plots.plots(data.halan_dataframes(sme_main,'order_status_count','Delivered','Weekly','Halan'),'Weekly','Delivered')      
+            ),)
 
-            'layout':go.Layout(
-                title =  'Weekly orders delivered',
-                xaxis = dict(title = 'Halan Week'),
-                yaxis = dict(title = 'Order Count'),
-             plot_bgcolor = css_styles['gray1']  ,
-                paper_bgcolor =css_styles['gray2'],
-                font= font1,
-                autosize = True,
-           ) }),
-
- ],style=card_style_2
+ ],style=graph_style
  ), 
 
 
@@ -281,41 +132,18 @@ html.Br(),
 
 
  html.Div([
-     html.Label('Please Select the month'),
-
-     dcc.Dropdown(
-          id='g5-dropdown',
-         options = dates_list_of_dict,
-         value=month,
-         placeholder="Select a month",
-     ),
+    
 
     
 
+ spinner_component(  
+            dcc.Graph(id='orders_received_monthly',style=card_style_1,
+            figure= report_plots.plots_bar(data.halan_dataframes(sme_main,'order_status_count','Received','Monthly','Halan'),'Halan','Monthly','order_status_count')
+                 
+                 
+            ),)
 
-
-            dcc.Graph(id='orders_status_monthly',
-            figure={'data':[
-                
-                go.Bar( x=report_data.orders_status_monthly['order_status'],
-                    y=report_data.orders_status_monthly['order_count'],
-                    #color=orders_delivered_weekly["month_name"],
-                    #barmode="group",
-                     text=report_data.orders_status_monthly['order_count'],
-                   
-                  )],
-
-            'layout':go.Layout(
-                title =  'Monthly status comparison',
-                xaxis = dict(title = 'Order Status'),
-                yaxis = dict(title = 'Order Count'),
-             plot_bgcolor = css_styles['gray1']  ,
-                paper_bgcolor =css_styles['gray2'],
-                font= font1,
-                autosize = True,
-           ) }),
-
- ],style=card_style_2
+ ],style=graph_style
  ), 
 
 
@@ -326,11 +154,13 @@ html.Br(),
  #Graph 6   
  html.Div([       
            
-            dcc.Dropdown(id = 'sme_status_picker',options = sme_status_options, value = 'Delivered'),
-              html.Br(),
-             dcc.Graph(id='sme_status_comparison'),
+            spinner_component(  
+             dcc.Graph(id='orders_delivery_percentage',style=card_style_1,
+             figure= report_plots.plots_percentage(data.halan_dataframes(sme_main,'order_status_percentage','Delivered','Daily','Halan'),'Daily','Delivered')  
+              
+             ),)
 
- ],style=card_style_2
+ ],style=graph_style
  ), 
 
 
@@ -340,32 +170,116 @@ html.Br(),
 
  #Graph 7   
  html.Div([       
-             dcc.Dropdown(id = 'sme_status_percentage_picker',options = sme_status_options, value = 'Delivered'),
-               html.Br(),
-            dcc.Graph(id='sme_status_percentage_comparison'),
+            
+            spinner_component(   dcc.Graph(id='sme_status_percentage_comparison',style=card_style_1,
+           figure=report_plots.plots_sunburst_percentage(data.halan_dataframes(sme_main,'order_status_percentage','Delivered','Monthly','SME'),'SME','Monthly','Delivered')                  
+           
+            ),)
             
 
- ],style=card_style_2
+ ],style=graph_style
  ), 
 
-#Graph 8   
+ #Graph 8   
  html.Div([       
-            html.Div([
- dcc.Dropdown(id ='daily_status_picker',options = sme_status_options, value = 'Delivered'),
-            html.Hr(),
-             dcc.RadioItems(id ='daily_status_percentage_picker',
-                            options = [{'label': 'Number of orders','value': 'order_count'},
-                                        {'label': 'Delivery percentage','value': 'status_percentage'}],
-                             value = 'status_percentage',
-                             ),
-            ]),
-            html.Br(),
+            
+            spinner_component(   dcc.Graph(id='drivers_status_percentage_comparison',style=card_style_1,
+           figure=report_plots.plots_sunburst_percentage(data.halan_dataframes(sme_main,'order_status_percentage','Delivered','Monthly','Driver'),'Driver','Monthly','Delivered')    
            
-            dcc.Graph(id='daily_status_comparison'),   
+            ),)
+            
+
+ ],style=graph_style
+ ), 
+
+
+#Graph 8
+ html.Div([       
+           
+            spinner_component(   dcc.Graph(id='halan_ORF',style=card_style_1,
+            figure=report_plots.plots_pie_traces(data.halan_dataframes(sme_main,"order_reason_of_failure",'Received','Monthly',"Halan"),"Halan",'Monthly')
+                
+            ),  ) 
 
 
 
- ],style=card_style_2
+ ],style=graph_style
+ ), 
+
+
+
+
+html.Hr(),
+html.Br(), 
+
+#Graph 8
+ html.Div([       
+           
+        spinner_component(       dcc.Graph(id='sme_ORF',style=card_style_1,
+            figure=report_plots.plots_pie_traces(data.halan_dataframes(sme_main,"order_reason_of_failure",'Received','Monthly',"SME"),"SME",'Monthly')
+                
+            ),   )
+
+
+
+ ],style=graph_style
+ ), 
+
+
+
+
+html.Hr(),
+html.Br(), 
+
+#Graph 8
+ html.Div([       
+           
+          spinner_component(     dcc.Graph(id='driver_ORF',style=card_style_1,
+            figure=report_plots.plots_pie_traces(data.halan_dataframes(sme_main,"order_reason_of_failure",'Received','Monthly',"Driver"),"Driver",'Monthly')
+                
+            ),   )
+
+
+
+ ],style=graph_style
+ ), 
+
+
+
+
+html.Hr(),
+html.Br(), 
+
+#Graph 9 
+ html.Div([       
+          spinner_component(    
+            dcc.Graph(id='sme_status',style=card_style_1,
+            figure=report_plots.plots_treemap(data.halan_dataframes(sme_main,"order_reason_of_failure",'Received','Monthly','SME'),'SME','Monthly')   
+            
+            ),   
+          )
+
+
+ ],style=graph_style
+ ), 
+
+
+
+
+html.Hr(),
+html.Br(),
+
+#Graph 10 
+ html.Div([       
+            spinner_component(  
+            dcc.Graph(id='driver_status',style=card_style_1,
+            figure=report_plots.plots_treemap(data.halan_dataframes(sme_main,"order_reason_of_failure",'Received','Monthly','Driver'),'Driver','Monthly')   
+            
+            ),  ) 
+
+
+
+ ],style=graph_style
  ), 
 
 
@@ -376,75 +290,111 @@ html.Br(),
 
 
 
-            ],style=CONTENT_STYLE
+#Graph 11 
+ html.Div([       
+            spinner_component(  
+            dcc.Graph(id='gmv_month',style=card_style_1,
+            figure=  report_plots.plots_gmv(data.halan_dataframes(sme_main,"GMV",'Received','Monthly','Halan'),'Monthly') 
+            
+            
+            ),   
+            )
+
+
+ ],style=graph_style
+ ), 
+
+
+
+
+html.Hr(),
+html.Br(),
+
+
+#Graph 12 
+ html.Div([       
+            spinner_component(  
+            dcc.Graph(id='gmv_week',style=card_style_1,
+            figure=  report_plots.plots_gmv(data.halan_dataframes(sme_main,"GMV",'Received','Weekly','Halan'),'Weekly') 
+            
+            
+            ),   
+            )
+
+
+ ],style=graph_style
+ ), 
+
+
+
+
+html.Hr(),
+html.Br(),
+
+
+            ],style=CONTENT_STYLE,
             
     )
 
 
 
-dashboard_layout = html.Div( 
-    children=[
-
-
-        
-
-
-
+       
+def create_dashboard_layout_dynamic(n_clicks):
+    return html.Div( 
+        children=[
+            drop_down_dashboard_dynamic(n_clicks),         
             html.Div([
-                    html.Div([
-                                dcc.Dropdown(
-                                    id = 'graph_type',
-                                    options = [{'label':i, 'value': i } for i in features_graph_type],
-                                    value = 'order_status_count'
+            dbc.Row([
+                    dbc.Col([
+            spinner_component(dcc.Graph(id={
+                'type':'feature_graphic',
+                'index': n_clicks,
+            },
+                style=card_style_1),),           
+            ], width={'size':12,'offset':0},)
+                ]),
+            ], style=graph_style
+            ),   
+                ], style=CONTENT_STYLE
 
-                                ) ],
-                                ),  html.Br(),
-            ]),
-     
-                    html.Div([
-                    html.Div([
-                                dcc.Dropdown(
-                                    id = 'order_status',
-                                    options = [{'label':i, 'value': i } for i in features_order_status],
-                                    value = 'Received'
+                )
 
-                                ) ],
-                                ),  html.Br(),
-            ]),    
-            
-              html.Div([
-                    html.Div([
-                                dcc.Dropdown(
-                                    id = 'order_period',
-                                    options = [{'label':i, 'value': i } for i in features_order_period],
-                                    value = 'Daily'
 
-                                ) ],
-                                ),  html.Br(),
-            ]),
+def create_dashboard_layout():
+    return html.Div(
+                id='dark-theme-component-demo',
+                children=[
+                    dbc.Row([
+                        dbc.Col([
+                            dbc.Button('Add Chart', id='add_chart', n_clicks=0, color="primary", className="me-1",style={'font-size':'14px'}),
+                        ],width={'size':3,'offset':1}, align='center'),
 
-               html.Div([
-                    html.Div([
-                                dcc.Dropdown(
-                                    id = 'stakeholder',
-                                    options = [{'label':i, 'value': i } for i in features_stakeholder],
-                                    value = 'Halan'
+                    ], justify='between'),
+                     dbc.Row([
+                        dbc.Col([
+                            html.Div(children=[
 
-                                ) ],
-                                ),  html.Br(),
-            ]),
-            
-            
+                                html.Div(id='selectors', children=[]),
+                            html.Div(id='container', children=[]),
+                            ]),
+                            
+                        ]),
 
- html.Div([
-           dcc.Graph(id='feature_graphic',style=c2)
-        
-        ], style=card_style_2
-         ),     html.Br(), 
-        
-
-            ], style=CONTENT_STYLE
-
+                    ]),
+                        ],  style= tab_style
             )
+                        
 
-          
+def container_component_layout(tab,df):
+    
+    if tab=='dashboard':
+        return create_dashboard_layout()
+    
+    elif tab=='report':
+        
+        return create_report_layout_dynamic(df)
+    elif tab=='data_table':
+        
+        return [create_data_table(df),create_data_table_layout()]
+    else:
+        return create_dashboard_layout()

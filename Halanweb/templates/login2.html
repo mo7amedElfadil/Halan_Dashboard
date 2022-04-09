@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style3.css')}}">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    
+{% if title %}
+<title>
+  
+  Halan Web App - {{ title }}</title>
+{% else %}
+<title>Halan Web App</title>
+{% endif %}
+</head>
+<body>
+    
+	<div class="main">
+		<div class="logo">
+
+		</div>
+		<div class="signin">
+			
+			<h1>Welcome!</h1>
+			<p>Sign into your account</p>		
+		 <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+            <div class="contianer">
+                <div class="row">
+                <div class="col-sm">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                 </div>
+                <div class="row">
+                <div class="col-sm">
+                    {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </div>
+            </div>
+			<br>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      <span>
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+    </span>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+        </div>
+			<br>
+		</form>
+    	<ul>
+    		<li>
+            <a href="https://www.facebook.com/sudanhalan">
+            <i class="fab fa-facebook-f"></i>
+            </li>
+    		<li>
+                <a href="https://twitter.com/HalanApp">
+                <i class="fab fa-twitter"></i>
+            </li>
+    		<li>
+                <a href="https://www.youtube.com/channel/UCzu7iJFst84xhZ-7WTfgXPA/featured">
+                <i class="fab fa-youtube"></i>
+            </li>
+
+    		<li><i class="fab fa-whatsapp"></i></li>
+    		<li>
+                <a href="https://www.instagram.com/halan_sudan/"><i class="fab fa-instagram"></i></li>
+    	</ul>
+    	</div>
+	</div>
+
+
+
+</body>

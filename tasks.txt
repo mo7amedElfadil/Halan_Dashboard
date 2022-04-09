@@ -1,3 +1,15 @@
+from Halanweb import db
+db.create_all()
+db.drop_all()
+
+from Halanweb.models import User
+db.session.add(User(id='0001',username='admin',email='admin@blog.com',password='admin'))
+db.session.commit()
+
+#to delete a single table in db0
+User.__table__.drop(engine)
+
+
 ranges:
     date:
         days in month. months in year

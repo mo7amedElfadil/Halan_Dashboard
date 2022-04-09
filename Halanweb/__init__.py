@@ -14,7 +14,9 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+UPLOAD_FOLDER = 'static/csv'
+app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
+
 
 
 from Halanweb import routes
-

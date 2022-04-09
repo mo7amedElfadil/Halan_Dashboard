@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+body{
+	background-image: url(2.jpg);
+	background-position: center;
+	background-size: cover;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	min-height: 100vh;
+}
+.main{
+	display: inline-flex;
+	box-shadow: 0 2px 10px 10px rgba(0,0,0,0.2)
+}
+.logo{
+	width: 889px;
+	height: 500px;
+	background-image: url(1.png);
+	background-position: center;
+	background-size: cover;
+	border-radius: 20px;
+}
+.logo h2{
+	padding: 15px;
+	color: #e9e8ee;
+}
+.signin{
+	width: 320px;
+	background: #003D69;
+	color: #fff;
+	padding: 20px;
+	text-align: center;
+	border-radius: 20px;
+}
+form label{
+	float: left;
+	margin: 25px 0px 0px 40px;
+}
+label{
+	font-size: 14px;
+}
+form input , form button{
+	width: 200px;
+	height: 35px;
+	color: #fff;
+	background: #282b81;
+	outline: none;
+	border: none;
+	border-radius: 15px;
+	padding: 10px;
+}
+form input[type]::placeholder{
+	color: #fff;
+	opacity: .7s;
+	padding-left: 3px;
+}
+form a{
+	color: #fff;
+	font-size: 14px;
+	float: right;
+	margin: 15px 25px;
+}
+form button{
+	background: #ed0c2e;
+	font-size: 16px;
+	padding: 1px; margin: 10px 0 10px 20px;
+	cursor: pointer;
+}
+form button:hover{
+	transition: .5s;
+	background: #cf2b44;
+}
+ul{
+	list-style: none;
+	margin: 20px;
+}
+li{
+	font-size: 18px;
+	display: inline-block;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.fieldset{ 
+	display: flex;
+	border-color: #003D69;
+
+}

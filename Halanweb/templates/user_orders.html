@@ -1,15 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1 class='mb-3'>orders by{{user.username}} {{orders.total}}</h1>
+    <h1 class='mb-3'>orders by:{{user.username}}={{orders.total}}</h1>
     {% for order in orders.items %}
     <article class="media content-section">
         <img class="rounded-circle article-img" src="{{url_for('static',filename='profile_pics/'+order.author.image_file)}}">
         <div class="media-body">
           <div class="article-metadata">
-            <a class="mr-2" href="{{url_for('user_orders,username=order.author.username)}}">{{ order.author.username }}</a>
+            <a class="mr-2" href="{{url_for('user_orders',username=order.author.username)}}">{{ order.author.username }}</a>
             <small class="text-muted">{{ order.order_date }}</small>
           </div>
-          <h2><a class="article-title" href="{{url_for('user_orders',order_id=order.order_id)}}">{{ order.order_id}}</a></h2>
+          <h2><a class="article-title" href="{{url_for('user_orders',username=order.author.username)}}">{{ order.order_id}}</a></h2>
           <p class="article-content">{{order.order_status }}</p>
           <p class="article-content">{{order.driver_name }}</p>
           <p class="article-content">{{order.order_value }}</p>

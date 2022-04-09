@@ -6,12 +6,12 @@
           <div class="article-metadata">
             <a class="mr-2" href="{{url_for('user_orders',username=order.author.username)}}">{{ order.author.username }}</a>
             <small class="text-muted">{{ order.order_date }}</small>
-            {%if order.author == current_user%}
-              <div>
-                <a class ='btn btn-secondary btn-sm mt-1 mb-1' , href="{{url_for('update_order',order_id=order.order_id)}}">update</a>
-                <button type="button" class="btn btn-danger btn-sm m-1"data-toggle="modal" data-target="#deleteModal">Delete</button>
-              </div>
-            {%endif%}
+            
+            <div>
+              <a class ='btn btn-secondary btn-sm mt-1 mb-1' , href="{{url_for('update_order',order_id=order.order_id)}}">update</a>
+              <button type="button" class="btn btn-danger btn-sm m-1"data-toggle="modal" data-target="#deleteModal">Delete</button>
+            </div>
+           
           </div>
           <h2 class="article-title">{{ order.order_id}}</h2>
           <p class="article-content">{{order.order_status }}</p>

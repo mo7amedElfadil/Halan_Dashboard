@@ -1,5 +1,5 @@
 body {
-  background: #fafafa;
+  background: #9e999954;
   color: #333333;
   margin-top: 5rem;
 }
@@ -30,6 +30,21 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
+}
+
+.content_container{
+  padding-left: 5rem;
+  overflow-x:hidden;
+  
+  
+}
+
+.iframe_container{
+  
+
+  overflow-x:hidden;
+  
+  
 }
 
 .article-title {
@@ -77,4 +92,102 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.center_content {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.card_style_1 { 
+  background : #ffd73e33;
+  color : #212529;
+   box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+  border: 2px solid;
+   text-align: center;
+   
+   position: relative;
+   border-radius: 5px;
+   background-color: '#212529';
+   
+   resize: block;
+   display: flex;
+  border-top:1px dotted #ebecec;
+   padding: 15px 25px !important;
+   
+  
+ }
+
+ 
+.title-card {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.modebar{
+  display: none !important;
+}
+
+.header {
+  display: flex;
+  align-items: right;
+  position: absolute;
+  top: 0;
+  background-color: white;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, .4);
+  padding: 0 .5rem;
+  height: var(--header-height);
+  width: 100%;
+  margin-left: 0.3rem;
+  margin-top: 0.1rem;
+ 
+  border-top: 0.3rem solid #288aec;
+
+
+}
+.menu-icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.menu-icon {
+  max-width: 40px;
+  height: 100%;
+  fill: var(--medium-gray);
+  cursor: pointer;
+}
+
+.menu-icon:hover {
+  fill: var(--dark-gray);
 }

@@ -7,8 +7,8 @@ __pycache__/
 .coverage
 
 # database & logs
-*.db
-site.db
+
+
 *.sqlite3
 *.log
 database.ini
@@ -16,6 +16,6 @@ config.py
 
 # venv
 project_env
-
+*.rar
 
 

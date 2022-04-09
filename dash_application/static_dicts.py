@@ -27,45 +27,23 @@ Drivers_names_list
 
 
 
-order_reason_of_failure_list = []
-
-for order_reason_of_failure in sme_main['order_reason_of_failure'].unique():
-    if Drivers_names_list == []:
-        order_reason_of_failure_list.append("")
-    order_reason_of_failure_list.append(order_reason_of_failure)
-
-#order_reason_of_failure_list.sort()
-
-
-
-
-features = {
-     'Daily orders received': 'Daily orders received',
-      'Weekly orders received' : 'Weekly orders received',
-      'Monthly orders received' :'Monthly orders received',
-      'Daily orders delivered':'Daily orders delivered',
-      'Weekly orders delivered':'Weekly orders delivered',
-       'Monthly orders delivered':'Monthly orders delivered',
-      'Daily status comparison':'Daily status comparison',
-      'Weekly status comparison':'Weekly status comparison',
-       'Monthly status comparison':'Monthly status comparison',
-      'SME status comparison Daily' :'SME status comparison Daily',
-      'SME status comparison Weekly' :'SME status comparison Weekly',
-      'SME status comparison Monthly' :'SME status comparison Monthly',
-     'SME status percentage comparison Daily'    :'SME status percentage comparison Daily',
-     'SME status percentage comparison Weekly'    :'SME status percentage comparison Weekly',
-     'SME status percentage comparison Monthly'    :'SME status percentage comparison Monthly',
-     'Daily status percentage comparison':'Daily status percentage comparison',
-      'Daily status comparison':'Daily status comparison',
-      'Order reason of failure':'Order reason of failure',
-      'Halan GMV':'Halan GMV',
-}
 
 features_graph_type = {
-    'order_status_count':'order_status_count',
-    "order_status_percentage":"order_status_percentage",
-    'order_reason_of_failure':'order_reason_of_failure', #pie
+    'Order Status Count':'order_status_count',
+    "Order Status Percentage":"order_status_percentage",
+    'Order Reason of Failure':'order_reason_of_failure', #pie
      'GMV':'GMV',
+}
+
+graph_description= {
+        "GMV":"Gross Market Value",
+        "Order Status Count":'Number of Orders',
+    'Order Reason of Failure':'Reasons Orders Fail',
+    'Order Status Percentage':'Order Delivery Percentage',
+        
+
+
+
 }
 
 features_order_status = {'Received':'Received',
@@ -73,7 +51,6 @@ features_order_status = {'Received':'Received',
                          'Cancelled': 'Cancelled',
                          'Hold':'Hold',
                         }
-#   {'label':i, 'value': i } for i in sme_main.columns,
 features_order_period = {'Daily':'order_date', #ts
                          'Weekly': 'week',      #bar
                          'Monthly':'month_name',  #bar
@@ -83,17 +60,36 @@ features_stakeholder = {'Halan':'Halan',
                         "Driver":"driver_name",
                        }
 
-sme_columns = ['order_id', 'client_city', 'sme_name','order_value','order_date','driver_name','order_status','order_reason_of_failure','month_name','week','driver_fee',	'halan_return', 'sme_return']
+sme_columns = {
+    "client_contact_no":"Client Contact Number",
+     "order_id":"Order ID",
+      "client_city":"Client City",
+       "client_address":"Client Address",
+        "sme_name":"Store Name",
+         "order_status":"Order Status",
+          "order_reason_of_failure":"Order Reason of Failure",
+           "driver_name":"Driver Name",
+            "order_delivery_fees":"Order Delivery Fee",
+             "order_value":"Order Value",
+              "order_date":"Order Date",
+               "day":"Day",
+               "year":"Year",
+                "month":"Month",
+                "week":"Week",
+                 "month_name":"Month Name",
+                 "driver_fee":"Driver Fee",
+                 "halan_return":"Halan Return",
+                 "sme_return":"Store Return",
+                 "order_count":"Number of Orders",
+                  'status_percentage': "Percentage of Orders"
 
+
+}
 dates_list_of_dict = []
 
 for month in sme_main['month_name'].unique():
     dates_list_of_dict.append({'label':str(month),'value': month})
 
-sme_status_options = []
-
-for status in sme_main['order_status'].unique():
-    sme_status_options.append({'label':str(status),'value': str(status)})
 
 css_styles =  {
     'background':'#111111',
@@ -136,158 +132,89 @@ css_styles =  {
   'font-family-monospace':' SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace', 
   }
 
-c0 = { 'margin': '0',
-  'color': '#575962',
-  'font-size':'20px',
-  'font-weight':'400',
-  'line-height': '1.6',}
 
 
-c2 = { 
+card_style_1 = { 
  'background' : '#ffd73e33' , 
  'color':css_styles['dark'],
  ' box-shadow': '0px 1px 15px 1px rgba(69, 65, 78, 0.08)',
- 'border-bottom': '7px solid',
+ 'border': '2px solid',
   'text-align': 'center',
-  'overflow': 'hidden',
+  
   'position': 'relative',
   'border-radius': '5px',
-  
-   'min-height': '3em',
-  'resize': 'both',
-  'display': 'flex',
- 
-}
-art_style ={
-     "position": "inherit",
-     'margin': '1rem',
-     'margin-left': '1rem',
-     'margin-right': '1rem',
-     'padding-top':'1rem',
-     'padding-bottom':'1rem',
-     'padding-right': '1rem',
-     'border-radius': '60px',
-    'background-color': '#e9ecef',
-     'box-shadow': '2px 6px 15px 0 rgba(69,65,78,.1)',
-    
-     'border': '2px dotted #212529',
-   
-     }
-card_style_1 =  {
- 'border-radius': '5px',
   'background-color': '#212529',
-  'color': '#7d7b7b',
-  'margin-bottom': '30px',
-  'box-shadow': '2px 6px 15px 0px rgba(69, 65, 78, 0.1)',
-  'border': '0px', 
-   'height': 'calc(100% - 30px)',
-  'width':' calc(100% + 2px)',
-  'align-items': 'center',
-  'border-top':'1px dotted #ebecec',
-  'padding': '15px 25px !important',
-  }
-
-card_style_2 = {
-    'border-radius': '5px',
-    'background-color': '#fff',
-    'margin-bottom': '30px',
-    'box-shadow': '2px 6px 15px 0 rgba(69,65,78,.1)',
-    'border': '0',
-    'border-top-color': 'currentcolor',
-    'border-top-style': 'none',
-    'border-top-width': '0px',
-    'border-right-color': 'currentcolor',
-    'border-right-style': 'none',
-    'border-right-width': '0px',
-    'border-bottom-color': 'currentcolor',
-    'border-bottom-style': 'none',
-    'border-bottom-width': '0px',
-    'border-left-color': 'currentcolor',
-    'border-left-style': 'none',
-    'border-left-width': '0px',
-    'border-image-outset': '0',
-    'border-image-repeat': 'stretch',
-    'border-image-slice': '100%',
-    'border-image-source': 'none',
-    'border-image-width': '1',
-}
-
   
-
-style_1 = {'display': 'block', 'margin-left': 'calc(50% - 110px)'}
-div_style1 = {'backgroundColor':css_styles['light'], 'color':css_styles['dark'], 'border':'3px indigo solid', 'padding':10}
+  'resize': 'block',
+  'display': 'flex',
+ 'border-top':'1px dotted #ebecec',
+  'padding': '15px 25px !important',
+  
+}
 
 font1 ={'color': css_styles['text'],                
                 'family' : css_styles['font-family-monospace'],
                 
-                'color': css_styles['white'],
                 }
 
 
- 
-tabs_styles = {
-    'height': '44px',
-    'align-items': 'center'
-}
 tab_style = {
-    'borderBottom': '1px solid #d6d6d6',
-    'padding': '6px',
+   
+    
     'fontWeight': 'bold',
-    'border-radius': '15px',
+    'border-radius': '5px',
     'background-color': '#F2F2F2',
     'box-shadow': '4px 4px 4px 4px lightgrey',
- 
+       
+  
+    
+    'background-repeat':'repeat',
+    
 }
  
-tab_selected_style = {
-    'borderTop': '1px solid #d6d6d6',
-    'borderBottom': '1px solid #d6d6d6',
-    'backgroundColor': '#119DFF',
-    'color': 'white',
-    'padding': '6px',
-    'border-radius': '15px',
-}
 
 
-NAVBAR_STYLE = {
-    "position": "absolute",
-    "top": 0,
-    "left": 0,
-    "right": 0,
-   
-    'height': '12rem',
-    "padding": "2rem ",
-    "background-color": "#f8f9fa",
-    'box-shadow': '4px 4px 4px 4px lightgrey',
-      'fontWeight': 'bold',
-    'border-radius': '15px',
-    'margin' : '1rem',
-}
 
 CONTENT_STYLE = {
-    "top":0,
-    "margin-top":'15rem',
-    "margin-left": "2rem",
-    "margin-right": "2rem",
+    
+   
+    "padding": "20px",
+    
     "position": "relative",
    
+ 
 }
+graph_style = {
 
-
-theme = {
+    "margin":'4px',
     
-'dark': False,
-'detail': '#007439',
-'primary': '#00EA64',
-'secondary': '#6E6E6E',
- "top":0,
-    "margin-top":'2rem',
-    "margin-left": "2rem",
-    "margin-right": "2rem",
-    "background-color":'f4f5f7',
-    'color': 'black',
-     "position": "relative",
-      'box-shadow': '4px 4px 4px 4px lightgrey',
-      'border-radius': '15px',
-      
+  
 }
+
+
+h1_style ={'textAlign':'center',
+        'color':css_styles['darker'] ,
+        "background-color":'#3cc3ec',
+          'fontWeight': 'bold',
+             'border-radius': '20px',
+        
+        }
+
+
+
+
+
+user_type = {
+    'super':['driver','account','logout'],
+    'gm':['dash','account','logout'],
+    'de':['de page','account','logout'],
+}
+
+page_dict = {
+    'driver':['ico_loc','link'],
+    'de page':['ico_loc','link'],
+    'dash':['ico_loc','link'],
+    'account':['ico_loc','link'],
+}
+
+[['ico_loc','link'],['ico_loc','link'],['ico_loc','link']]

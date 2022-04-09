@@ -1,7 +1,436 @@
 {% extends "layout.html" %}
 {% block content %}
-{% if current_user.is_authenticated %}
+
+
+<div class="row head_theme" >
+ 
+  <nav class="header head_theme">
+  <button class="menu-icon-btn" data-menu-icon-btn>
+
+  </button>
+</nav></div>
+
+
+<div class="row mt--7" style="margin-top: 5rem;">
+
+  {% if current_user.is_authenticated %}
+  
+  <!-- authenticated  -->
+  
+  <!-- admin -->
+
+  {%if current_user.role == "admin"%}
+
+  <div class="col-xl-4 col-lg-4 col-md-6">
+
+
     {% for order in orders.items %}
+    
+            <div class="flex-md-row">
+      <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{url_for('static',filename='profile_pics/'+order.author.image_file)}}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{url_for('user_orders',username=order.author.username)}}">{{ order.author.username }}</a>
+              <small class="text-muted">{{ order.order_date }}</small>
+            </div>
+            <h2><a class="article-title" href="{{url_for('order',order_id=order.order_id)}}">{{ order.order_id}}</a></h2>
+            <p class="article-content">{{order.order_status }}</p>
+            <p class="article-content">{{order.driver_name }}</p>
+            <p class="article-content">{{order.order_value }}</p>
+          </div>
+        </article>
+      </div>
+          
+          {% endfor %}
+       
+    
+          
+        <div class="flex-md-row">
+    
+      {%for page_num in orders.iter_pages()%}
+     
+        {%if page_num%}
+          {%if orders.page==page_num%}
+          <a class="btn btn-info mb-4"href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+          {%else%}
+          <a class="btn btn-outline-info mb-4"href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+          {%endif%}
+          {%else%}
+        {%endif%}
+      
+      {%endfor%}
+     </div>
+    </div>
+    
+    <div class="col-xl-8 col-lg-8 col-md-6">
+    
+      <div class="container col-12">
+      
+        <h3 class="card-title title-card">{{graph_title}}</h3>
+        <div class="row align-content-center" >
+      
+          <div class="col-md-6 col-sm-12 ">
+            <div class="card full-height">
+              <div id='chart{{0}}' style="height:250px" > </div>
+              <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+               <script type='text/javascript'>
+                 Plotly.plot('chart{{0}}', {{ graphJSON1[0] | safe}},{});
+               </script>
+             
+              </div>
+            </div>
+      
+            <div class="col-md-6 col-sm-12 ">
+              <div class="card full-height">
+                <div id='chart{{1}}' style="height:250px" > </div>
+                <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+                 <script type='text/javascript'>
+                   Plotly.plot('chart{{1}}', {{ graphJSON1[1] | safe}},{});
+                 </script>
+               
+                </div>
+              </div>
+    
+              <div class="col-md-12 col-sm-12 ">
+                <div class="card full-height">
+                  <div id='chart{{2}}' style="height:300px" > </div>
+                  <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+                   <script type='text/javascript'>
+                     Plotly.plot('chart{{2}}', {{ graphJSON1[2] | safe}},{});
+                   </script>
+                 
+                  </div>
+                </div>
+        </div>
+      
+       
+      
+      {% endif %}
+     
+      
+      <!--admin  -->
+   
+
+<!-- UM -->
+{%if current_user.role == "Upper Management"%}
+
+<div class="container col-12">
+  
+  <h3 class="card-title title-card">{{graph_title}}</h3>
+  <div class="row " >
+
+    <div class="col-md-6 col-sm-12 ">
+    <div class="card full-height">
+      <div id='chart{{0}}' class="d-flex   justify-content-around pb-2 pt-4 "> </div>
+      <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+       <script type='text/javascript'>
+         Plotly.plot('chart{{0}}', {{ graphJSON1[0] | safe}},{});
+       </script>
+     
+      </div>
+    </div>
+  
+    <div class="col-md-6 col-sm-12">
+      <div class="card full-height">
+      <div id='chart{{2}}' class="d-flex flex-wrap justify-content-around pb-2 pt-4 full-height"> </div>
+       <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+        <script type='text/javascript'>
+          Plotly.plot('chart{{2}}', {{ graphJSON1[2] | safe}},{});
+        </script>
+    
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row  " >
+    <div class="col-md-6 col-sm-12">
+      <div class="card full-height">
+      <div id='chart{{1}}' class="d-flex flex-wrap justify-content-around pb-2 pt-4"> </div>
+       <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+        <script type='text/javascript'>
+          Plotly.plot('chart{{1}}', {{ graphJSON1[1] | safe}},{});
+        </script>
+    
+      </div>
+    </div>
+
+    
+    <div class="col-md-6 col-sm-12">
+      
+      <div class="card full-height">
+      <div id='chart{{3}}' class="d-flex flex-wrap justify-content-around pb-2 pt-4"> </div>
+       <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+        <script type='text/javascript'>
+          Plotly.plot('chart{{3}}', {{ graphJSON1[3] | safe}},{});
+        </script>
+       
+      </div>
+   
+      
+      <div class="card full-height">
+        <div id='chart{{4}}' class="d-flex flex-wrap justify-content-around pb-2 pt-4"> </div>
+        <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+         <script type='text/javascript'>
+           Plotly.plot('chart{{4}}', {{ graphJSON1[4] | safe}},{});
+         </script>
+     
+        
+      </div>
+    </div>
+  </div>
+  <div class="row" >
+    <div class="col-md-12">
+      <div class="card full-height">
+      <div id='chart{{5}}' class="d-flex flex-wrap justify-content-around pb-2 pt-4"> </div>
+       <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+        <script type='text/javascript'>
+          Plotly.plot('chart{{5}}', {{ graphJSON1[5] | safe}},{});
+        </script>
+     
+      </div>
+    </div>
+  </div>  
+
+  <div class="row" >
+    <div class="col-md-12">
+    
+      
+        <iframe class="col" src="http://localhost:5000/forecast/" 
+        height=500 ></iframe>
+   
+   
+    </div>
+  </div>
+
+{% endif %}
+  
+ 
+<!-- UM -->
+
+<!-- DEO -->
+{%if current_user.role == "Data Entry Officer"%}
+<div class="col-xl-4 col-lg-4 col-md-6">
+
+
+{% for order in orders.items %}
+
+        <div class="flex-md-row">
+  <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{url_for('static',filename='profile_pics/'+order.author.image_file)}}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="{{url_for('user_orders',username=order.author.username)}}">{{ order.author.username }}</a>
+          <small class="text-muted">{{ order.order_date }}</small>
+        </div>
+        <h2><a class="article-title" href="{{url_for('order',order_id=order.order_id)}}">{{ order.order_id}}</a></h2>
+        <p class="article-content">{{order.order_status }}</p>
+        <p class="article-content">{{order.driver_name }}</p>
+        <p class="article-content">{{order.order_value }}</p>
+      </div>
+    </article>
+  </div>
+      
+      {% endfor %}
+   
+
+      
+    <div class="flex-md-row">
+
+  {%for page_num in orders.iter_pages()%}
+ 
+    {%if page_num%}
+      {%if orders.page==page_num%}
+      <a class="btn btn-info mb-4"href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+      {%else%}
+      <a class="btn btn-outline-info mb-4"href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+      {%endif%}
+      {%else%}
+    {%endif%}
+  
+  {%endfor%}
+ </div>
+</div>
+
+<div class="col-xl-8 col-lg-8 col-md-6">
+
+  <div class="container col-12">
+  
+    <h3 class="card-title title-card">{{graph_title}}</h3>
+    <div class="row align-content-center" >
+  
+      <div class="col-md-6 col-sm-12 ">
+        <div class="card full-height">
+          <div id='chart{{0}}' style="height:250px" > </div>
+          <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+           <script type='text/javascript'>
+             Plotly.plot('chart{{0}}', {{ graphJSON1[0] | safe}},{});
+           </script>
+         
+          </div>
+        </div>
+  
+        <div class="col-md-6 col-sm-12 ">
+          <div class="card full-height">
+            <div id='chart{{1}}' style="height:250px" > </div>
+            <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+             <script type='text/javascript'>
+               Plotly.plot('chart{{1}}', {{ graphJSON1[1] | safe}},{});
+             </script>
+           
+            </div>
+          </div>
+
+          <div class="col-md-12 col-sm-12 ">
+            <div class="card full-height">
+              <div id='chart{{2}}' style="height:300px" > </div>
+              <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+               <script type='text/javascript'>
+                 Plotly.plot('chart{{2}}', {{ graphJSON1[2] | safe}},{});
+               </script>
+             
+              </div>
+            </div>
+    </div>
+  
+   </div> 
+  </div>
+  
+  {% endif %}
+    
+  
+
+<!-- DEO -->
+  
+<!-- DS -->
+{%if current_user.role == "Drivers Supervisor"%}
+<div class="col-xl-4 col-lg-4 col-md-6">
+
+
+{% for order in orders.items %}
+
+        <div class="flex-md-row">
+  <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{url_for('static',filename='profile_pics/'+order.author.image_file)}}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="{{url_for('user_orders',username=order.author.username)}}">{{ order.author.username }}</a>
+          <small class="text-muted">{{ order.order_date }}</small>
+        </div>
+        <h2><a class="article-title" href="{{url_for('order',order_id=order.order_id)}}">{{ order.order_id}}</a></h2>
+        <p class="article-content">{{order.order_status }}</p>
+        <p class="article-content">{{order.driver_name }}</p>
+        <p class="article-content">{{order.order_value }}</p>
+      </div>
+    </article>
+  </div>
+      
+      {% endfor %}
+   
+
+      
+    <div class="flex-md-row">
+
+  {%for page_num in orders.iter_pages()%}
+ 
+    {%if page_num%}
+      {%if orders.page==page_num%}
+      <a class="btn btn-info mb-4"href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+      {%else%}
+      <a class="btn btn-outline-info mb-4"href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+      {%endif%}
+      {%else%}
+    {%endif%}
+  
+  {%endfor%}
+ </div>
+</div>
+
+<div class="col-xl-8 col-lg-8 col-md-6">
+
+ 
+  <div class="card ">
+    <h3 class="card-title title-card">{{graph_title}}</h3>
+    
+    <div class="container col-12">
+  
+     
+      <div class="row align-content-center" >
+    
+        <div class="col-md-6 col-sm-12 ">
+          <div class="card full-height">
+            <div id='chart{{0}}' style="height:250px" > </div>
+            <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+             <script type='text/javascript'>
+               Plotly.plot('chart{{0}}', {{ graphJSON1[0] | safe}},{});
+             </script>
+           
+            </div>
+          </div>
+    
+          <div class="col-md-6 col-sm-12 ">
+            <div class="card full-height">
+              <div id='chart{{1}}' style="height:250px" > </div>
+              <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+               <script type='text/javascript'>
+                 Plotly.plot('chart{{1}}', {{ graphJSON1[1] | safe}},{});
+               </script>
+             
+              </div>
+            </div>
+  
+            <div class="col-md-12 col-sm-12 ">
+              <div class="card full-height">
+                <div id='chart{{2}}' style="height:300px" > </div>
+                <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+                 <script type='text/javascript'>
+                   Plotly.plot('chart{{2}}', {{ graphJSON1[2] | safe}},{});
+                 </script>
+               
+                </div>
+              </div>
+      </div>
+    
+     </div>
+     <h3 class="card-title title-card">Drivers Summary</h3>
+     {% for i in range(0, length) %}
+    
+   
+    
+
+     {% if i%3==0  %}
+   </ul>
+ <h6 class="card-body card-text alert alert-primary  ">{{txt[i]}}</h6>
+ <ul class="list-group list-group-flush">
+ {% else %}
+ <h6 class="list-group-item">{{txt[i]}}</h6>
+ {% endif %}
+ 
+   
+     {% endfor %}
+    
+  
+   </div>
+
+</div>
+
+
+{% endif %}
+  
+<!-- DS -->
+
+
+<!-- ACC -->
+
+{%if current_user.role == "Accountant"%}
+
+<div class="col-xl-4 col-lg-4 col-md-6">
+
+
+  {% for order in orders.items %}
+  
+          <div class="flex-md-row">
     <article class="media content-section">
         <img class="rounded-circle article-img" src="{{url_for('static',filename='profile_pics/'+order.author.image_file)}}">
         <div class="media-body">
@@ -15,9 +444,16 @@
           <p class="article-content">{{order.order_value }}</p>
         </div>
       </article>
-    {% endfor %}
-
+    </div>
+        
+        {% endfor %}
+     
+  
+        
+      <div class="flex-md-row">
+  
     {%for page_num in orders.iter_pages()%}
+   
       {%if page_num%}
         {%if orders.page==page_num%}
         <a class="btn btn-info mb-4"href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
@@ -26,6 +462,203 @@
         {%endif%}
         {%else%}
       {%endif%}
+    
     {%endfor%}
-  {%endif%}
+   </div>
+  </div>
+  
+  <div class="col-xl-8 col-lg-8 col-md-6">
+  
+   
+    <div class="card ">
+      <h3 class="card-title title-card">{{graph_title}}</h3>
+      
+      <div class="container col-12">
+    
+       
+        <div class="row align-content-center" >
+      
+          <div class="col-md-6 col-sm-12 ">
+            <div class="card full-height">
+              <div id='chart{{0}}' style="height:250px" > </div>
+              <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+               <script type='text/javascript'>
+                 Plotly.plot('chart{{0}}', {{ graphJSON1[0] | safe}},{});
+               </script>
+             
+              </div>
+            </div>
+      
+            <div class="col-md-6 col-sm-12 ">
+              <div class="card full-height">
+                <div id='chart{{1}}' style="height:250px" > </div>
+                <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+                 <script type='text/javascript'>
+                   Plotly.plot('chart{{1}}', {{ graphJSON1[1] | safe}},{});
+                 </script>
+               
+                </div>
+              </div>
+    
+              <div class="col-md-12 col-sm-12 ">
+                <div class="card full-height">
+                  <div id='chart{{2}}' style="height:300px" > </div>
+                  <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+                   <script type='text/javascript'>
+                     Plotly.plot('chart{{2}}', {{ graphJSON1[2] | safe}},{});
+                   </script>
+                 
+                  </div>
+                </div>
+        </div>
+      
+       </div>
+       <h3 class="card-title title-card">Drivers Summary</h3>
+       {% for i in range(0, length) %}
+      
+     
+      
+  
+       {% if i%4==0  %}
+     </ul>
+   <h6 class="card-body card-text alert alert-primary  ">{{txt[i]}}</h6>
+   <ul class="list-group list-group-flush">
+   {% else %}
+   <h6 class="list-group-item">{{txt[i]}}</h6>
+   {% endif %}
+   
+     
+       {% endfor %}
+      
+    
+     </div>
+  
+  </div>
+  
+  
+
+{% endif %}
+
+<!-- ACC -->
+
+<!-- OM -->
+{%if current_user.role == "Operations Manager"%}
+<div class="col-xl-4 col-lg-4 col-md-6">
+
+
+{% for order in orders.items %}
+
+        <div class="flex-md-row">
+  <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{url_for('static',filename='profile_pics/'+order.author.image_file)}}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="{{url_for('user_orders',username=order.author.username)}}">{{ order.author.username }}</a>
+          <small class="text-muted">{{ order.order_date }}</small>
+        </div>
+        <h2><a class="article-title" href="{{url_for('order',order_id=order.order_id)}}">{{ order.order_id}}</a></h2>
+        <p class="article-content">{{order.order_status }}</p>
+        <p class="article-content">{{order.driver_name }}</p>
+        <p class="article-content">{{order.order_value }}</p>
+      </div>
+    </article>
+  </div>
+      
+      {% endfor %}
+   
+
+      
+    <div class="flex-md-row">
+
+  {%for page_num in orders.iter_pages()%}
+ 
+    {%if page_num%}
+      {%if orders.page==page_num%}
+      <a class="btn btn-info mb-4"href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+      {%else%}
+      <a class="btn btn-outline-info mb-4"href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+      {%endif%}
+      {%else%}
+    {%endif%}
+  
+  {%endfor%}
+ </div>
+</div>
+
+<div class="col-xl-8 col-lg-8 col-md-6">
+
+ 
+  <div class="card ">
+    <h3 class="card-title title-card">{{graph_title}}</h3>
+    <div class="container col-12">
+  
+      <div class="row align-content-center" >
+    
+        <div class="col-md-6 col-sm-12 ">
+          <div class="card full-height">
+            <div id='chart{{0}}' style="height:250px" > </div>
+            <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+             <script type='text/javascript'>
+               Plotly.plot('chart{{0}}', {{ graphJSON1[0] | safe}},{});
+             </script>
+           
+            </div>
+          </div>
+    
+          <div class="col-md-6 col-sm-12 ">
+            <div class="card full-height">
+              <div id='chart{{1}}' style="height:250px" > </div>
+              <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+               <script type='text/javascript'>
+                 Plotly.plot('chart{{1}}', {{ graphJSON1[1] | safe}},{});
+               </script>
+             
+              </div>
+            </div>
+  
+            <div class="col-md-12 col-sm-12 ">
+              <div class="card full-height">
+                <div id='chart{{2}}' style="height:300px" > </div>
+                <script type='text/javascript' src='/static/js/plotly-latest.min.js'></script>
+                 <script type='text/javascript'>
+                   Plotly.plot('chart{{2}}', {{ graphJSON1[2] | safe}},{});
+                 </script>
+               
+                </div>
+              </div>
+      </div>
+    
+     </div>
+     
+     <h3 class="card-title title-card">Stores Summary</h3>
+    {% for i in range(0, length) %}
+    
+   
+    
+
+    {% if i%3==0  %}
+  </ul>
+<h6 class="card-body card-text alert alert-primary  ">{{txt[i]}}</h6>
+<ul class="list-group list-group-flush">
+{% else %}
+<h6 class="list-group-item">{{txt[i]}}</h6>
+{% endif %}
+
+  
+    {% endfor %}
+   
+  
+   </div>
+
+</div>
+
+{% endif %}
+
+<!-- OM -->
+
+<!--  authenticated    -->
+{% endif %}
+
+</div>
 {% endblock %}
+
