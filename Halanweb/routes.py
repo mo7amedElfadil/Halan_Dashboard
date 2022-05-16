@@ -10,7 +10,7 @@ from Halanweb.forms import RegistrationForm, LoginForm,UpdateAccountForm, DeoOrd
 from Halanweb.models import User, Order
 from flask_login import login_user, current_user, logout_user, login_required
 from dash_application.data import data
-from dash_application.input_data import input_data
+from dash_application.input_data import input_data, insert_data,update_data
 from dash_application.upload_data import parseCSV
 from dash_application.plots import report_plots
 from dash_application.static_dicts import graph_description
@@ -296,8 +296,15 @@ def new_order():
                             order_date=form.order_date.data ,
                             author=current_user
                     )
+            records= (form.order_id.data,form.client_contact_no.data,form.client_city.data,
+            form.client_address.data,form.sme_name.data,form.driver_name.data,
+            form.order_delivery_fees.data,form.order_value.data,"Received",form.order_reason_of_failure.data,
+            form.order_date.data )
+            insert_data(records)
+
             db.session.add(Order1)
             db.session.commit()
+            
             flash('order has been added','success')
             return redirect(url_for('new_order'))
         else:
@@ -350,7 +357,12 @@ def update_order(order_id):
             order.driver_name=form.driver_name.data
             order.order_delivery_fees=form.order_delivery_fees.data
             order.order_value=form.order_value.data
-            order.order_date=form.order_date.data       
+            order.order_date=form.order_date.data   
+           
+            records= ( form.driver_name.data, form.order_delivery_fees.data,form.order_value.data,"Received",form.order_reason_of_failure.data,
+            form.order_date.data ,form.order_id.data)
+            update_data(records)
+
             db.session.commit()
             flash('Your order has been updated!','sucess')
             return redirect(url_for('home'))
